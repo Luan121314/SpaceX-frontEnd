@@ -1,0 +1,15 @@
+table tr td a{
+    text-decoration: none !important;
+    color: var(--dark);
+}
+
+table tr td a:hover{
+    color: var(--gray-dark) ;
+    transition: 1s;
+}
+
+
+table tbody tr:hover{
+    background-color: var(--secondary);
+    cursor: pointer;
+}
