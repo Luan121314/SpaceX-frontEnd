@@ -11,7 +11,8 @@ import './formUser.css';
 interface UserProps {
     name: string,
     about: string,
-    github: string
+    github: string,
+    gender: string
 }
 
 
@@ -35,6 +36,7 @@ const AlterUser = () => {
                 name,
                 github,
                 about,
+                gender
             } = response.data as UserProps;
 
             setName(name);
