@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import ButtonConfirm from '../../components/Inputs/ButtonConfirm';
 import Input from '../../components/Inputs/Input';
 import Select from '../../components/Inputs/Select';
@@ -7,36 +8,62 @@ import Layout from '../../layout/Layout';
 import api from '../../services/api';
 import './formUser.css';
 
+interface UserProps {
+    name: string,
+    about: string,
+    github: string
+}
 
-const CreateUser = () => {
+
+interface ProfileParams {
+    id: string
+}
+
+const AlterUser = () => {
     const [name, setName] = useState('');
     const [about, setAbout] = useState('');
     const [github, setGithub] = useState('');
     const [gender, setGender] = useState('');
     const [sucess, setSucess] = useState(false);
     const [sended, setSended] = useState(false);
+    const { id } = useParams<ProfileParams>();
 
-    function handleCreateUser() {
+
+    useEffect(() => {
+        api.get(`users/${id}`).then(response => {
+            const {
+                name,
+                github,
+                about,
+            } = response.data as UserProps;
+
+            setName(name);
+            setGithub(github);
+            setAbout(about);
+            setGender(gender);
+        })
+    }, [id])
+
+
+    function handleUpdateUser() {
         setSended(true);
-        api.post('users', {
+        api.put(`users/${id}`, {
             name,
             about,
             github,
             gender
         }).then(response => {
             const { status } = response;
-            status !== 201 ? setSucess(false) : setSucess(true);
+            status !== 204 ? setSucess(false) : setSucess(true);
         })
     }
-
-
 
     return (
         <Layout nameContent="Usuario">
             <div className="formUser-container" >
                 <div className="content">
                     <form action="">
-                        <h3 className="mb-4" >Criar novo usuario</h3>
+                        <h3 className="mb-4" >Atualiza usuário</h3>
                         <Input
                             name="name"
                             label="Nome"
@@ -71,7 +98,7 @@ const CreateUser = () => {
                                 ]
                             }
                         />
-                        <ButtonConfirm label="Tudo certo" onClick={handleCreateUser} />
+                        <ButtonConfirm label="Tudo certo" onClick={handleUpdateUser} />
 
                         {sended && ((sucess) ? (
                             <div className="alert alert-success mt-4 " role="alert">
@@ -86,9 +113,9 @@ const CreateUser = () => {
                     </form>
                 </div>
             </div>
-        </Layout >
+        </Layout>
     )
 }
 
 
-export default CreateUser
+export default AlterUser

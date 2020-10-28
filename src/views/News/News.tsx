@@ -1,15 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../layout/Layout';
 import TableListNews from '../../components/Table/TableListNews';
 import Table from '../../components/Table/Table';
+import api from '../../services/api';
+
+interface NoticieProps{
+    id:string,
+    title: string,
+    publicationDate: string
+}
 
 const News= ()=>{
+    const [noticies, setNoticies] = useState<NoticieProps[]>([])
+
+    useEffect(()=>{
+        api.get('news').then((response)=>{
+            setNoticies(response.data)
+        })
+    },[])
+
+
     return(
-        <Layout nameContent="Noticas" >
-            <Table theads={['Noticia', 'Manchete', 'Data da publicação']}>
-                <TableListNews key={1} listItem={{ id:'ncoav', indice: 1, headline: 'Manchete', title:'Titulo noticia', publicationDate: new Date().toDateString()}}/>
-                <TableListNews key={2} listItem={{id:'ncoav', indice: 1, headline: 'Manchete', title:'Titulo noticia', publicationDate: new Date().toDateString()}}/>
-                <TableListNews key={3} listItem={{id:'ncoav', indice: 1, headline: 'Manchete', title:'Titulo noticia', publicationDate: new Date().toDateString()}}/>
+        <Layout nameContent="Noticas" renderPlus>
+            <Table theads={['Noticia', 'Data da publicação']}>
+                {noticies.map((noticie, index) =>{
+                    return(
+                        <TableListNews key={noticie.id} listItem={{ index: index+1,...noticie}}/>
+                    )
+                })}
             </Table>
             
         </Layout>

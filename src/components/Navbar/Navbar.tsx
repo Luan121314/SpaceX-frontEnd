@@ -5,7 +5,8 @@ import { FiPlus } from 'react-icons/fi';
 import './styles.css'
 
 interface NavBarProps {
-    nameContent: string
+    nameContent: string,
+    renderPlus?: boolean
 }
 
 const NavBar: React.FC<NavBarProps> = (props) => {
@@ -24,9 +25,15 @@ const NavBar: React.FC<NavBarProps> = (props) => {
 
             <div className="nameContent" >
                 <h3 className="h3">{props.nameContent}</h3>
-                <Link to={pathName}>
-                    <FiPlus size={32} color="#FFF" />
-                </Link>
+                {props.renderPlus ? (
+
+                    <Link to={pathName}>
+                        <FiPlus size={32} color="#FFF" />
+                    </Link>
+                ) : (
+                        <div></div>
+                    )
+                }
             </div>
         </nav>
     )

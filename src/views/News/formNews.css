@@ -1,0 +1,41 @@
+
+
+.content .createNews-container{
+    width: 100%;
+    text-align: center; 
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+   
+}
+
+.createNews-container .content{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+}
+
+.createNews-container .content form{
+    width: 70%;
+    text-align: left;
+    max-width: 500px;
+}
+
+@media (max-width: 767px) {
+    .content .createNews-container{
+        justify-content: center;
+    }
+
+    .createNews-container  .content{
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        }
+       
+    .createNews-container .content form{
+        width: 90%;
+     }
+}
+
+

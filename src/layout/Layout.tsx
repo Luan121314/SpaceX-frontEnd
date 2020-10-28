@@ -3,13 +3,14 @@ import Navbar from '../components/Navbar/Navbar';
 import SideBar from '../components/Sidebar/SideBar';
 
 interface LayoutProps{
-    nameContent: string
+    nameContent: string,
+    renderPlus?: boolean
 }
 
-const Layout: React.FC<LayoutProps> = (props) => {
+const Layout: React.FC<LayoutProps> = ({...props}) => {
     return (
         <>
-            <Navbar nameContent={props.nameContent} />
+            <Navbar {...props} />
             <div className="container-fluid">
                 <div className="row content">
                 <SideBar/>

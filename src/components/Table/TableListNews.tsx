@@ -3,10 +3,9 @@ import { useHistory } from 'react-router-dom';
 
 interface TableListUserProps {
     listItem: {
-        indice: number,
+        index: number,
         id:string,
         title: string,
-        headline: string,
         publicationDate: string
     }
 }
@@ -21,13 +20,11 @@ const TableListUser: React.FC<TableListUserProps> = ({ listItem }) => {
     return (
         <tr onClick={handleRedirectToNoticie} >
 
-            <td>{listItem.indice}</td>
+            <td>{listItem.index}</td>
 
             <td>{listItem.title}</td>
 
-            <td>{listItem.headline}</td>
-
-            <td>{listItem.publicationDate}</td>
+            <td>{new Date(listItem.publicationDate).toLocaleDateString()}</td>
 
         </tr>
     )

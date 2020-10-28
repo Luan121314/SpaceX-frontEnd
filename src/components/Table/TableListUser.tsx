@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 interface TableListUserProps {
     listItem: {
-        indice: number,
+        index: number,
         id: string,
         name: string,
         gender: string,
@@ -18,7 +18,7 @@ const TableListUser: React.FC<TableListUserProps> = ({ listItem }) => {
     }
     return (
         <tr onClick={handleRedirectToUser} >
-            <td>{listItem.indice}</td>
+            <td>{listItem.index}</td>
             <td>{listItem.name}</td>
             <td>{listItem.gender}</td>
         </tr>

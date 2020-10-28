@@ -1,0 +1,43 @@
+.content .formUser-container{
+    width: 100%;
+    text-align: center; 
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
+   
+}
+
+.formUser-container .content{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+}
+
+.formUser-container .content form{
+    width: 70%;
+    text-align: left;
+    max-width: 500px;
+}
+
+
+
+@media (max-width: 767px) { 
+   
+        .content .formUser-container{
+            justify-content: center;
+            width: 100%;
+        }
+
+        .formUser-container .content{
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .formUser-container .content form{
+            width: 90%;
+        }
+       
+}
+
+
