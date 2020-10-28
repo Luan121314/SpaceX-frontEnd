@@ -10,9 +10,9 @@ import User from './views/User/User';
 import CreateUser from './views/User/CreateUser';
 
 
-const Routes = () => {
+function Routes() {
     return (
-        <BrowserRouter  >
+        <BrowserRouter>
             <Route path="/users" component={User} exact />
             <Route path="/users/register" component={CreateUser} exact />
             <Route path="/users/profile/:id" component={Profile} exact />
@@ -24,7 +24,7 @@ const Routes = () => {
             <Route path="/notices/alter/:id" component={AlterNotice} exact />
             <Redirect from="/" to="/notices" exact />
         </BrowserRouter>
-    )
+    );
 }
 
 export default Routes;
