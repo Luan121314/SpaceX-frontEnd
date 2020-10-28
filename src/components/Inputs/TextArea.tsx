@@ -10,7 +10,7 @@ const TextArea: React.FC<TextAreaProps> = ({ label, name, ...rest }) => {
     return (
         <div className="form-group">
             <label htmlFor={name} >{label}</label>
-            <textarea className="form-control" {...rest} id={name} required />
+            <textarea  className="form-control" rows={9} {...rest} id={name} required />
         </div>
     )
 

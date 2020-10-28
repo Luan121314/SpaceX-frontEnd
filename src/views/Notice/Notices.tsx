@@ -4,18 +4,18 @@ import TableListNews from '../../components/Table/TableListNews';
 import Table from '../../components/Table/Table';
 import api from '../../services/api';
 
-interface NoticieProps{
+interface NoticeProps{
     id:string,
     title: string,
     publicationDate: string
 }
 
 const News= ()=>{
-    const [noticies, setNoticies] = useState<NoticieProps[]>([])
+    const [notices, setNotices] = useState<NoticeProps[]>([])
 
     useEffect(()=>{
-        api.get('news').then((response)=>{
-            setNoticies(response.data)
+        api.get('notices').then((response)=>{
+            setNotices(response.data)
         })
     },[])
 
@@ -23,9 +23,9 @@ const News= ()=>{
     return(
         <Layout nameContent="Noticas" renderPlus>
             <Table theads={['Noticia', 'Data da publicação']}>
-                {noticies.map((noticie, index) =>{
+                {notices.map((notice, index) =>{
                     return(
-                        <TableListNews key={noticie.id} listItem={{ index: index+1,...noticie}}/>
+                        <TableListNews key={notice.id} listItem={{ index: index+1,...notice}}/>
                     )
                 })}
             </Table>

@@ -1,9 +1,9 @@
 import React from 'react'
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
-import AlterNoticie from './views/News/AlterNoticie';
-import CreateNews from './views/News/CreateNews';
-import News from './views/News/News';
-import Noticie from './views/News/Noticie';
+import AlterNotice from './views/Notice/AlterNotice';
+import CreateNews from './views/Notice/CreateNotice';
+import Notices from './views/Notice/Notices';
+import Notice from './views/Notice/Notice';
 import AlterUser from './views/User/AlterUser';
 import CreateUser from './views/User/CreateUser';
 import Profile from './views/User/Profile';
@@ -18,11 +18,11 @@ const Routes = () => {
             <Route path="/users/profile/:id" component={Profile} exact />
             <Route path="/users/alter/:id" component={AlterUser} exact />
 
-            <Route path="/news" component={News} exact />
-            <Route path="/news/register" component={CreateNews} exact />
-            <Route path="/news/noticie/:id" component={Noticie} exact />
-            <Route path="/news/alter/:id" component={AlterNoticie} exact />
-            {/* <Redirect from="/" to="/news" exact /> */}
+            <Route path="/notices" component={Notices} exact />
+            <Route path="/notices/register" component={CreateNews} exact />
+            <Route path="/notices/notice/:id" component={Notice} exact />
+            <Route path="/notices/alter/:id" component={AlterNotice} exact />
+            <Redirect from="/" to="/notices" exact />
         </BrowserRouter>
     )
 }

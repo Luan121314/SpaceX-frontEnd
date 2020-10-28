@@ -1,54 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react'
 import ButtonConfirm from '../../components/Inputs/ButtonConfirm';
 import Input from '../../components/Inputs/Input';
 import TextArea from '../../components/Inputs/TextArea';
 import Layout from '../../layout/Layout';
 import api from '../../services/api';
-import './formNews.css';
+import './formNotice.css'
 
-interface NoticeParamsProps {
-    id: string
-}
-
-interface NoticeProps {
-    title: string,
-    headline: string,
-    news: string,
-    publicationDate: string
-}
-
-const AlterNews = () => {
-
-    const { id } = useParams<NoticeParamsProps>();
+const CreateNews = () => {
     const [title, setTitle] = useState('');
     const [headline, setHeadLine] = useState('');
     const [notice, setNotice] = useState('');
     const [sucess, setSucess] = useState(false);
     const [sended, setSended] = useState(false);
-    console.log({sended, sucess});
-    
-    useEffect(() => {
-        setSended(false)
-        api.get(`news/${id}`).then((response) => {
-            const {
-                headline,
-                news,
-                title
-            } = response.data as NoticeProps;
 
-            setHeadLine(headline);
-            setNotice(news);
-            setTitle(title)
-        })
-    }, [id])
-    
-    function handleUpdateNotice() {
+    function handleCreateNotice() {
         setSended(true);
 
-        api.put(`news/${id}`, { title, headline, news: notice }).then(response => {
+        api.post('notices', { title, headline, notice }).then(response => {
             const { status } = response;
-            status !== 204 ? setSucess(false) : setSucess(true);
+            status !== 201 ? setSucess(false) : setSucess(true);
 
         })
     }
@@ -59,7 +29,7 @@ const AlterNews = () => {
             <div className="createNews-container" >
                 <div className="content">
                     <form action="">
-                        <h3 className="mb-4" >Atualizar Notícia</h3>
+                        <h3 className="mb-4" >Criar nova Notícia</h3>
                         <Input
                             name="title"
                             label="Titulo"
@@ -80,11 +50,13 @@ const AlterNews = () => {
                             value={notice}
                         />
 
-                        <ButtonConfirm label="Tudo certo" onClick={handleUpdateNotice} />
-
-                        {sended && ((sucess) ? (
+                        <ButtonConfirm
+                            label="Tudo certo"
+                            onClick={handleCreateNotice}
+                        />
+                          {sended && ((sucess) ? (
                             <div className="alert alert-success mt-4 " role="alert">
-                                Noticia atualizada com sucesso
+                                Noticia criada com sucesso
                             </div>
                         ) : (
                                 <div className="alert alert-danger mt-4" role="alert">
@@ -93,10 +65,11 @@ const AlterNews = () => {
                             ))}
                     </form>
                 </div>
+
             </div>
         </Layout>
     )
 }
 
 
-export default AlterNews;
+export default CreateNews;

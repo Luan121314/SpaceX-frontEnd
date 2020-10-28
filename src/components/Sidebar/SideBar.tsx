@@ -13,7 +13,7 @@ import './style.css';
             <div className="sidebar-sticky pt-3">
                 <ul className="nav flex-column">
                     <li className="nav-item">
-                        <Link className={`nav-link ${pathName === '/news'?  'active': ''}`} to="/news">
+                        <Link className={`nav-link ${pathName === '/notices'?  'active': ''}`} to="/notices">
                             <span data-feather="home"></span>
                             News
                         </Link>

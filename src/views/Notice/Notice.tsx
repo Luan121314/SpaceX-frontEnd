@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../../layout/Layout';
 import { FiEdit2, FiX } from 'react-icons/fi';
 
-import './noticie.css';
+import './notice.css';
 import { useHistory, useParams } from 'react-router-dom';
 import api from '../../services/api';
 
 interface NoticeProps {
     title: string,
     headline: string,
-    news: string,
+    notice: string,
     publicationDate: string
 }
 
@@ -18,24 +18,24 @@ interface NoticeParamsProps {
 }
 
 
-const Noticie = () => {
+const Notice= () => {
     const history = useHistory();
     const { id } = useParams<NoticeParamsProps>();
-    const [noticie, setNoticie] = useState<NoticeProps>();
+    const [notice, setNotice] = useState<NoticeProps>();
 
     useEffect(() => {
-        api.get(`news/${id}`).then((response) => {
+        api.get(`notices/${id}`).then((response) => {
             const {
                 publicationDate,
                 headline,
-                news,
+                notice,
                 title
             } = response.data as  NoticeProps;
             
-            setNoticie({
+            setNotice({
                 title,
                 headline,
-                news,
+                notice,
                 publicationDate: new Date(publicationDate).toLocaleDateString()
             })
         })
@@ -43,24 +43,25 @@ const Noticie = () => {
 
 
     function handleRedirectAlterNotice() {
-        history.push(`/news/alter/${id}`);
+        history.push(`/notices/alter/${id}`);
     }
 
     function handleDeleteNotice(){
-        api.delete(`news/${id}`).then((response) => {
-            setNoticie(response.data)
-            history.push('/news')
+        api.delete(`notices/${id}`).then((response) => {
+            setNotice(response.data)
+            history.push('/notices')
         })
     }
 
 
     return (
         <Layout nameContent="Noticia" >
-            <div className="noticie-container">
+            <div className="notice-container">
                 <div className="content">
                     <div className="card">
                         <div className="card-header ">
-                            <h5 className="card-title">{noticie?.title}</h5>
+                            <h5 className="card-title">{notice
+                            ?.title}</h5>
                             <div>
                                 <button type="button" onClick={handleRedirectAlterNotice} >
                                     <FiEdit2 size={20} color="#000" />
@@ -72,14 +73,17 @@ const Noticie = () => {
 
                         </div>
                         <div className="card-body">
-                            <h6 className="card-subtitle mb-2 ">{noticie?.headline}</h6>
+                            <h6 className="card-subtitle mb-2 ">{notice
+                            ?.headline}</h6>
                             <button className="btn btn-link  p-0" type="button" data-toggle="collapse" data-target="#notice" aria-expanded="false" aria-controls="notice">Ver mais</button>
                         </div>
                         <div className="card-body collapse" id="notice" >
-                            <p className="card-text">{noticie?.news}</p>
+                            <p className="card-text">{notice
+                            ?.notice}</p>
                         </div>
                         <div className="card-footer">
-                            <small className="text-muted">Data da publicação {noticie?.publicationDate}</small>
+                            <small className="text-muted">Data da publicação {notice
+                            ?.publicationDate}</small>
                         </div>
                     </div>
                 </div>
@@ -88,4 +92,4 @@ const Noticie = () => {
     )
 }
 
-export default Noticie;
+export default Notice;

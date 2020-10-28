@@ -65,9 +65,9 @@ const CreateUser = () => {
                             onChange={(e) => { setGender(e.target.value) }}
                             options={
                                 [
-                                    { label: "masculino", value: "masculino" },
-                                    { label: "feminino", value: "feminino" },
-                                    { label: "outros", value: "outros" }
+                                    { label: "Masculino", value: "Masculino" },
+                                    { label: "Feminino", value: "Feminino" },
+                                    { label: "Outros", value: "Outros" }
                                 ]
                             }
                         />

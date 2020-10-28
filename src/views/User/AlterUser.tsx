@@ -47,6 +47,7 @@ const AlterUser = () => {
 
     function handleUpdateUser() {
         setSended(true);
+        
         api.put(`users/${id}`, {
             name,
             about,
@@ -92,9 +93,9 @@ const AlterUser = () => {
                             onChange={(e) => { setGender(e.target.value) }}
                             options={
                                 [
-                                    { label: "masculino", value: "masculino" },
-                                    { label: "feminino", value: "feminino" },
-                                    { label: "outros", value: "outros" }
+                                    { label: "Masculino", value: "Masculino" },
+                                    { label: "Feminino", value: "Feminino" },
+                                    { label: "Outros", value: "Outros" }
                                 ]
                             }
                         />
@@ -102,7 +103,7 @@ const AlterUser = () => {
 
                         {sended && ((sucess) ? (
                             <div className="alert alert-success mt-4 " role="alert">
-                                Usuário criado com sucesso
+                                Usuário atualizado com sucesso
                             </div>
                         ) : (
                                 <div className="alert alert-danger mt-4" role="alert">

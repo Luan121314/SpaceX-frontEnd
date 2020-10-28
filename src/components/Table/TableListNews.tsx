@@ -14,11 +14,11 @@ interface TableListUserProps {
 const TableListUser: React.FC<TableListUserProps> = ({ listItem }) => {
 
     const history = useHistory()
-    function handleRedirectToNoticie(){
-        history.push(`/news/noticie/${listItem.id}`)
+    function handleRedirectToNotice(){
+        history.push(`/notices/notice/${listItem.id}`)
     }
     return (
-        <tr onClick={handleRedirectToNoticie} >
+        <tr onClick={handleRedirectToNotice} >
 
             <td>{listItem.index}</td>
 
