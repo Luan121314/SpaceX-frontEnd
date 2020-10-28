@@ -5,9 +5,9 @@ import CreateNews from './views/Notice/CreateNotice';
 import Notices from './views/Notice/Notices';
 import Notice from './views/Notice/Notice';
 import AlterUser from './views/User/AlterUser';
-import CreateUser from './views/User/CreateUser';
 import Profile from './views/User/Profile';
 import User from './views/User/User';
+import CreateUser from './views/User/CreateUser';
 
 
 const Routes = () => {
