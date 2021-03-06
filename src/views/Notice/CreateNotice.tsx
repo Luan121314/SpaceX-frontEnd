@@ -1,26 +1,41 @@
 import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom';
+import { ValidationError } from 'yup';
 import ButtonConfirm from '../../components/Inputs/ButtonConfirm';
 import Input from '../../components/Inputs/Input';
 import TextArea from '../../components/Inputs/TextArea';
 import Layout from '../../layout/Layout';
 import api from '../../services/api';
+import noticeValidation from '../../validates/NoticeValidation';
 import './formNotice.css'
+
+
 
 const CreateNews = () => {
     const [title, setTitle] = useState('');
     const [headline, setHeadLine] = useState('');
     const [notice, setNotice] = useState('');
-    const [sucess, setSucess] = useState(false);
-    const [sended, setSended] = useState(false);
+    const [error, setError] = useState<string>();
+    const history = useHistory()
 
-    function handleCreateNotice() {
-        setSended(true);
+    async function handleCreateNotice() {
+        const data = { title, headline, notice }
+        try {
+            await noticeValidation.create(data)
+            api.post<{id:string}>('notices', data).then(response => {
+                const {id} = response.data
+                history.push(`/notices/notice/${id}`)
+            })
 
-        api.post('notices', { title, headline, notice }).then(response => {
-            const { status } = response;
-            status !== 201 ? setSucess(false) : setSucess(true);
+        } catch (error) {
+            if (error instanceof ValidationError) {
+                setError(error.message)
+                return
+            }
+            setError("Algum erro inesperado oconteceu, tente novamenete mais tarde")
 
-        })
+        }
+
     }
 
 
@@ -50,19 +65,14 @@ const CreateNews = () => {
                             value={notice}
                         />
 
+                        {error && (
+                            <div className="alert alert-danger mb-2">{error}</div>
+                        )}
+
                         <ButtonConfirm
                             label="Tudo certo"
                             onClick={handleCreateNotice}
                         />
-                          {sended && ((sucess) ? (
-                            <div className="alert alert-success mt-4 " role="alert">
-                                Noticia criada com sucesso
-                            </div>
-                        ) : (
-                                <div className="alert alert-danger mt-4" role="alert">
-                                    OPs ! Deu algo errado.
-                                </div>
-                            ))}
                     </form>
                 </div>
 
