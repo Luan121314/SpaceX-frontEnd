@@ -1,19 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { ValidationError } from 'yup';
 import ButtonConfirm from '../../components/Inputs/ButtonConfirm';
 import Input from '../../components/Inputs/Input';
 import Select from '../../components/Inputs/Select';
 import TextArea from '../../components/Inputs/TextArea';
+import { UserProps } from '../../interfaces';
 import Layout from '../../layout/Layout';
 import api from '../../services/api';
 import './formUser.css';
 
-interface UserProps {
-    name: string,
-    about: string,
-    github: string,
-    gender: string
-}
 
 
 interface ProfileParams {
@@ -25,9 +21,9 @@ const AlterUser = () => {
     const [about, setAbout] = useState('');
     const [github, setGithub] = useState('');
     const [gender, setGender] = useState('');
-    const [sucess, setSucess] = useState(false);
-    const [sended, setSended] = useState(false);
     const { id } = useParams<ProfileParams>();
+    const [error, setError] = useState<string>();
+    const history = useHistory();
 
 
     useEffect(() => {
@@ -48,17 +44,25 @@ const AlterUser = () => {
 
 
     function handleUpdateUser() {
-        setSended(true);
-        
-        api.put(`users/${id}`, {
-            name,
-            about,
-            github,
-            gender
-        }).then(response => {
-            const { status } = response;
-            status !== 204 ? setSucess(false) : setSucess(true);
-        })
+        try {
+
+            api.put(`users/${id}`, {
+                name,
+                about,
+                github,
+                gender
+            }).then(response => {
+                const { status } = response;
+                if (status === 204) history.push(`/users/profile/${id}`)
+            })
+
+        } catch (error) {
+            if (error instanceof ValidationError) {
+                setError(error.message)
+                return
+            }
+            setError("Algum erro inesperado oconteceu, tente novamenete mais tarde")
+        }
     }
 
     return (
@@ -101,17 +105,13 @@ const AlterUser = () => {
                                 ]
                             }
                         />
+
+                        {error && (
+                            <div className="alert alert-danger mb-2">{error}</div>
+                        )}
+                        
                         <ButtonConfirm label="Tudo certo" onClick={handleUpdateUser} />
 
-                        {sended && ((sucess) ? (
-                            <div className="alert alert-success mt-4 " role="alert">
-                                Usuário atualizado com sucesso
-                            </div>
-                        ) : (
-                                <div className="alert alert-danger mt-4" role="alert">
-                                    OPs ! Deu algo errado.
-                                </div>
-                            ))}
 
                     </form>
                 </div>

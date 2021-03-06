@@ -7,5 +7,6 @@ export interface NoticeProps {
 export interface UserProps {
     name: string;
     about: string;
-    github: string
+    github: string;
+    gender: string
 }
