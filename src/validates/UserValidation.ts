@@ -4,9 +4,6 @@ import ValidationGeneric from './ValidationGeneric';
 
 
 class UserValidation extends ValidationGeneric {
-    constructor() {
-        super()
-    }
 
     async update(data: UserProps) {
         const scheme = yup.object().shape({

@@ -6,9 +6,6 @@ import ValidationGeneric from './ValidationGeneric';
 
 
 class NoticeValidation extends ValidationGeneric {
-    constructor() {
-        super()
-    }
 
     async update(data: NoticeProps) {
         const scheme = yup.object().shape({
