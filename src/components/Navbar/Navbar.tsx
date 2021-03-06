@@ -17,7 +17,7 @@ const NavBar: React.FC<NavBarProps> = (props) => {
 
     return (
         <nav className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-            <Link className="navbar-brand col-md-3 col-lg-2 mr-0 px-3" to="/news">SpaceX</Link>
+            <Link className="navbar-brand col-md-3 col-lg-2 mr-0 px-3" to="/notices">SpaceX</Link>
 
             <button className="navbar-toggler d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-expanded="false" aria-controls="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
