@@ -24,7 +24,7 @@ const AlterNews = () => {
     const [title, setTitle] = useState('');
     const [headline, setHeadLine] = useState('');
     const [notice, setNotice] = useState('');
-    const [sucess, setSucess] = useState(false);
+    const [success, setSuccess] = useState(false);
     const [sended, setSended] = useState(false);
     
     useEffect(() => {
@@ -33,7 +33,7 @@ const AlterNews = () => {
                 headline,
                 notice,
                 title
-            } = response.data as NoticeProps;
+            } = response.data;
 
             setHeadLine(headline);
             setNotice(notice);
@@ -45,7 +45,7 @@ const AlterNews = () => {
         setSended(true)
         api.put(`notices/${id}`, { title, headline, notice }).then(response => {
             const { status } = response;
-            status !== 204 ? setSucess(false) : setSucess(true);
+            status !== 204 ? setSuccess(false) : setSuccess(true);
 
         })
     }
@@ -79,7 +79,7 @@ const AlterNews = () => {
 
                         <ButtonConfirm label="Tudo certo" onClick={handleUpdateNotice} />
 
-                        {sended && ((sucess) ? (
+                        {sended && ((success) ? (
                             <div className="alert alert-success mt-4 " role="alert">
                                 Noticia atualizada com sucesso
                             </div>
