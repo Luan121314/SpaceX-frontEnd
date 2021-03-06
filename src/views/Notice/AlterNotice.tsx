@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { ValidationError } from 'yup';
 import ButtonConfirm from '../../components/Inputs/ButtonConfirm';
 import Input from '../../components/Inputs/Input';
 import TextArea from '../../components/Inputs/TextArea';
+import { NoticeProps } from '../../interfaces';
 import Layout from '../../layout/Layout';
 import api from '../../services/api';
+import noticeValidation from '../../validates/NoticeValidation';
 import './formNotice.css';
 
 interface NoticeParamsProps {
     id: string
 }
 
-interface NoticeProps {
-    title: string,
-    headline: string,
-    notice: string,
-    publicationDate: string
-}
 
 const AlterNews = () => {
 
@@ -24,11 +21,11 @@ const AlterNews = () => {
     const [title, setTitle] = useState('');
     const [headline, setHeadLine] = useState('');
     const [notice, setNotice] = useState('');
-    const [success, setSuccess] = useState(false);
-    const [sended, setSended] = useState(false);
-    
+    const [error, setError] = useState<string>();
+    const history = useHistory();
+
     useEffect(() => {
-        api.get(`notices/${id}`).then((response) => {
+        api.get<NoticeProps>(`notices/${id}`).then((response) => {
             const {
                 headline,
                 notice,
@@ -40,14 +37,24 @@ const AlterNews = () => {
             setTitle(title)
         })
     }, [id])
-    
-    function handleUpdateNotice() {
-        setSended(true)
-        api.put(`notices/${id}`, { title, headline, notice }).then(response => {
-            const { status } = response;
-            status !== 204 ? setSuccess(false) : setSuccess(true);
 
-        })
+    async function handleUpdateNotice() {
+        try {
+            const data = { title, headline, notice }
+            await noticeValidation.update(data)
+
+            api.put(`notices/${id}`, data).then(response => {
+                const { status } = response;
+                if (status === 204) history.push(`/notices/notice/${id}`);
+            })
+
+        } catch (error) {
+            if (error instanceof ValidationError) {
+                setError(error.message)
+                return
+            }
+            setError("Algum erro inesperado oconteceu, tente novamenete mais tarde")
+        }
     }
 
 
@@ -77,17 +84,12 @@ const AlterNews = () => {
                             value={notice}
                         />
 
+                        {error && (
+                            <div className="alert alert-danger mb-2">{error}</div>
+                        )}
+
                         <ButtonConfirm label="Tudo certo" onClick={handleUpdateNotice} />
 
-                        {sended && ((success) ? (
-                            <div className="alert alert-success mt-4 " role="alert">
-                                Noticia atualizada com sucesso
-                            </div>
-                        ) : (
-                                <div className="alert alert-danger mt-4" role="alert">
-                                    OPs ! Deu algo errado.
-                                </div>
-                            ))}
                     </form>
                 </div>
             </div>

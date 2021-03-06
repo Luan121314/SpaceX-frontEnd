@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { ValidationError } from 'yup';
 import ButtonConfirm from '../../components/Inputs/ButtonConfirm';
 import Input from '../../components/Inputs/Input';
@@ -24,7 +24,7 @@ const CreateNews = () => {
             await noticeValidation.create(data)
             api.post<{id:string}>('notices', data).then(response => {
                 const {id} = response.data
-                history.push(`/notices/notice/${id}`)
+                history.push(`/notices/notice/${id}`);
             })
 
         } catch (error) {
