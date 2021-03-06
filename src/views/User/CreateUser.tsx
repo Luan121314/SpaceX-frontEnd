@@ -1,33 +1,44 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router';
+import { ValidationError } from 'yup';
 import ButtonConfirm from '../../components/Inputs/ButtonConfirm';
 import Input from '../../components/Inputs/Input';
 import Select from '../../components/Inputs/Select';
 import TextArea from '../../components/Inputs/TextArea';
 import Layout from '../../layout/Layout';
 import api from '../../services/api';
+import userValidation from '../../validates/UserValidation';
 import './formUser.css';
 
 
 const CreateUser = () => {
-    
+
     const [name, setName] = useState('');
     const [about, setAbout] = useState('');
     const [github, setGithub] = useState('');
     const [gender, setGender] = useState('');
-    const [sucess, setSucess] = useState(false);
-    const [sended, setSended] = useState(false);
+    const [error, setError] = useState<string>();
+    const history = useHistory();
 
-    function handleCreateUser() {
-        setSended(true);
-        api.post('users', {
-            name,
-            about,
-            github,
-            gender
-        }).then(response => {
-            const { status } = response;
-            status !== 201 ? setSucess(false) : setSucess(true);
-        })
+    async function handleCreateUser() {
+        const data = { name, about, github, gender }
+        try {
+            await userValidation.create(data)
+
+            api.post<{ id: string }>('users', {
+
+            }).then(response => {
+                const { id } = response.data;
+                history.push(`/users/profile/${id}`)
+            })
+
+        } catch (error) {
+            if (error instanceof ValidationError) {
+                setError(error.message)
+                return
+            }
+            setError("Algum erro inesperado oconteceu, tente novamenete mais tarde")
+        }
     }
 
 
@@ -72,17 +83,14 @@ const CreateUser = () => {
                                 ]
                             }
                         />
+
+                        {error && (
+                            <div className="alert alert-danger mb-2">{error}</div>
+                        )}
+
                         <ButtonConfirm label="Tudo certo" onClick={handleCreateUser} />
 
-                        {sended && ((sucess) ? (
-                            <div className="alert alert-success mt-4 " role="alert">
-                                Usuário criado com sucesso
-                            </div>
-                        ) : (
-                                <div className="alert alert-danger mt-4" role="alert">
-                                    OPs ! Deu algo errado.
-                                </div>
-                            ))}
+
 
                     </form>
                 </div>

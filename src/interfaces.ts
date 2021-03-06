@@ -3,3 +3,9 @@ export interface NoticeProps {
     headline: string;
     notice: string
 }
+
+export interface UserProps {
+    name: string;
+    about: string;
+    github: string
+}
